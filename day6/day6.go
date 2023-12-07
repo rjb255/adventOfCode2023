@@ -18,18 +18,17 @@ func main() {
 	// 0 = t^2-tT+d
 	// t = (T+-sqrt(T^2-4d))/2
 	for i := 0; i < len(times); i++ {
-		minBound := math.Ceil((times[i]-math.Sqrt(times[i]*times[i]-4*distance[i]))/2 + 0.0001)
-		maxBound := math.Floor((times[i]+math.Sqrt(times[i]*times[i]-4*distance[i]))/2 - 0.0001)
+		minBound := math.Floor((times[i]-math.Sqrt(times[i]*times[i]-4*distance[i]))/2) + 1
+		maxBound := math.Ceil((times[i]+math.Sqrt(times[i]*times[i]-4*distance[i]))/2) - 1
 
 		beating *= maxBound - minBound + 1
-
 	}
 
 	fmt.Println(int(beating))
 
 	T := 42899189.
 	d := 308117012911467.
-	minBound := math.Ceil((T-math.Sqrt(T*T-4*d))/2 + 0.0001)
-	maxBound := math.Floor((T+math.Sqrt(T*T-4*d))/2 + 0.0001)
+	minBound := math.Floor((T-math.Sqrt(T*T-4*d))/2) + 1
+	maxBound := math.Ceil((T+math.Sqrt(T*T-4*d))/2) - 1
 	fmt.Println(int(maxBound - minBound + 1))
 }
