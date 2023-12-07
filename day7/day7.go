@@ -81,6 +81,7 @@ func cards2value(hand string) float64 {
 	for _, card := range hand {
 		cards = append(cards, cardMapping[string(card)])
 	}
+	actualHand := append([]int{}, cards...)
 	slices.Sort(cards)
 
 	counts := []int{1}
@@ -97,12 +98,14 @@ func cards2value(hand string) float64 {
 
 	score := 0.
 
-	j := 0
-
 	counts, cards = sortCounts(counts, cards, 0, 0)
-	for i := 0; i < len(counts); i++ {
-		score += float64(cards[j]) * math.Pow(14, float64(i))
-		j += counts[i]
+	// for i := 0; i < len(counts); i++ {
+	// 	score += float64(actualHand[len(counts)-j-1]) * math.Pow(14, float64(i))
+	// 	j += counts[i]
+	// }
+
+	for i, card := range actualHand {
+		score += math.Pow(14., float64(4-i)) * float64(card)
 	}
 
 	sortedCounts := []int(counts)
