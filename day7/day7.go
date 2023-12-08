@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -29,6 +30,7 @@ var gaps = [7]float64{
 }
 
 var boundaries = [7]float64{}
+var part = 1
 
 func fillBoundaries(index int) float64 {
 	if index <= 0 {
@@ -44,11 +46,20 @@ func main() {
 	for i := 2; i < 10; i++ {
 		cardMapping[strconv.Itoa(i)] = i
 	}
-	cardMapping["T"] = 10
 	cardMapping["J"] = 11
+
+	if part == 2 {
+		cardMapping["J"] = 1
+	}
+	cardMapping["T"] = 10
 	cardMapping["Q"] = 12
 	cardMapping["K"] = 13
 	cardMapping["A"] = 14
+
+	part1("day7.test.txt")
+	part1("day7.txt")
+
+	part = 2
 
 	part1("day7.test.txt")
 	part1("day7.txt")
@@ -95,10 +106,12 @@ func cards2value(hand string) float64 {
 			counts = append(counts, 1)
 		}
 	}
+	joker_count := len(regexp.MustCompile("J").FindAllString(hand, -1))
 
 	score := 0.
 
 	counts, cards = sortCounts(counts, cards, 0, 0)
+
 	// for i := 0; i < len(counts); i++ {
 	// 	score += float64(actualHand[len(counts)-j-1]) * math.Pow(14, float64(i))
 	// 	j += counts[i]
@@ -108,8 +121,29 @@ func cards2value(hand string) float64 {
 		score += math.Pow(14., float64(4-i)) * float64(card)
 	}
 
+	if part == 2 {
+		for index, count := range counts {
+			if count == joker_count {
+				if len(counts) == 1 {
+					counts[0] = 0
+					break
+				}
+
+				counts[index] = counts[0]
+
+				counts = counts[1:]
+				break
+			}
+		}
+	}
 	sortedCounts := []int(counts)
 	slices.Sort(sortedCounts)
+	if part == 2 {
+		if len(sortedCounts) == 0 {
+			sortedCounts = append(sortedCounts, 0)
+		}
+		sortedCounts[len(sortedCounts)-1] += joker_count
+	}
 	// High card, where all cards' labels are distinct: 23456
 	// 14*13*12*11 = 240240
 	if checkSame([]int{1, 1, 1, 1, 1}, sortedCounts) {
