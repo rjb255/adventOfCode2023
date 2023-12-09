@@ -41,7 +41,7 @@ func part1(filename string) {
 			continue
 		}
 		if lineNumber > 1 {
-			text := regexp.MustCompile("[0-9A-Z]{3}").FindAllString(line, -1)
+			text := regexp.MustCompile("[A-Z]{3}").FindAllString(line, -1)
 			content[text[0]] = text[1:]
 		}
 	}
@@ -99,7 +99,7 @@ func part2(filename string) {
 	}
 
 	cycles := [][]int{}
-	counts := [][]int{}
+	counts := [][]uint64{}
 
 	for _, nextInstruction := range nextInstructions {
 		history := []string{nextInstruction}
@@ -108,7 +108,7 @@ func part2(filename string) {
 			if cycle > 0 {
 				cycles = append(cycles, []int{cycle, offset})
 				for i := range count {
-					count[i] += offset
+					count[i] += uint64(offset)
 				}
 				counts = append(counts, count)
 				break
@@ -129,36 +129,39 @@ func part2(filename string) {
 			m2, _ := minSlice(counts[(i+1)%len(counts)])
 			if m1 < m2 {
 
-				counts[i][i1] += cycles[i][0]
+				counts[i][i1] += uint64(cycles[i][0])
 			}
 		}
 	}
 
-	fmt.Println(cycles)
-	fmt.Println(counts)
-	fmt.Print(slices.Min(counts[0]))
+	product := 1.
+	for _, s := range cycles {
+		product *= float64(s[0])
+	}
+
+	fmt.Println(slices.Min(counts[0]))
 }
 
-func checkHistory(history []string, rollover int) (int, int, []int) {
+func checkHistory(history []string, rollover int) (int, int, []uint64) {
 	if len(history) < rollover {
-		return 0, 0, []int{}
+		return 0, 0, []uint64{}
 	}
 	for i := rollover; i < len(history); i += rollover {
 		if history[0] == history[i] {
-			zs := []int{}
+			zs := []uint64{}
 			for j := 0; j < i; j++ {
 				if string(history[j][2]) == "Z" {
-					zs = append(zs, i-j)
+					zs = append(zs, uint64(i-j))
 				}
 			}
 			fmt.Println(i, (len(history)-1)%rollover, zs)
 			return i, (len(history) - 1) % rollover, zs
 		}
 	}
-	return 0, 0, []int{}
+	return 0, 0, []uint64{}
 }
 
-func match(counts [][]int) bool {
+func match(counts [][]uint64) bool {
 	for _, count := range counts[0] {
 		_match := true
 		for i := 1; i < len(counts); i++ {
@@ -181,16 +184,22 @@ func min(n1, n2 int) int {
 	return n2
 }
 
-func minSlice(s []int) (int, int) {
+func minUnit64(n1, n2 uint64) uint64 {
+	if n1 < n2 {
+		return n1
+	}
+	return n2
+}
+
+func minSlice(s []uint64) (uint64, int) {
 	m := s[0]
 	i := 0
 
 	for index, v := range s {
-		if min(m, v) != m {
+		if _min := minUnit64(m, v); _min != m {
 			i = index
-			m = min(m, v)
+			m = _min
 		}
 	}
-
 	return m, i
 }

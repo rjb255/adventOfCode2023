@@ -47,7 +47,6 @@ func main() {
 		cardMapping[strconv.Itoa(i)] = i
 	}
 	cardMapping["J"] = 11
-
 	if part == 2 {
 		cardMapping["J"] = 1
 	}
@@ -198,7 +197,6 @@ func checkSame(slice1, slice2 []int) bool {
 func insertLine(scores [][]float64, line []float64) [][]float64 {
 	pointer1 := 0
 	pointer2 := len(scores)
-
 	for {
 		mid := pointer1 + (pointer2-pointer1)/2
 		if pointer1 >= pointer2 {
