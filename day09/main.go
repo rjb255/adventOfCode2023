@@ -14,11 +14,11 @@ func check(e error) {
 }
 
 func main() {
-	part1("day9.test.txt")
-	part2("day9.test.txt")
+	part1("test.txt")
+	part2("test.txt")
 
-	part1("day9.txt")
-	part2("day9.txt")
+	part1("input.txt")
+	part2("input.txt")
 }
 
 func part1(filename string) {
@@ -38,6 +38,7 @@ func part1(filename string) {
 			number, err := strconv.Atoi(number)
 			check(err)
 			numbers = append(numbers, number)
+			numbers = append([]int{number}, numbers...)
 		}
 		numbers = nextInSequence(numbers)
 		sum += numbers[len(numbers)-1]
@@ -70,15 +71,15 @@ func part2(filename string) {
 }
 
 func nextInSequence(numbers []int) []int {
-	allZeros := true
+	allSame := true
 	for _, s := range numbers {
-		if s != 0 {
-			allZeros = false
+		if s != numbers[0] {
+			allSame = false
 			break
 		}
 	}
-	if allZeros {
-		return append(numbers, 0)
+	if allSame {
+		return append(numbers, numbers[0])
 	}
 	diff := []int{}
 	for i := 1; i < len(numbers); i++ {

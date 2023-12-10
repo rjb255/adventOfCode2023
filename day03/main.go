@@ -22,7 +22,7 @@ func main() {
 }
 
 func part1() int {
-	file, err := os.Open("day3.txt")
+	file, err := os.Open("input.txt")
 	check(err)
 
 	scanner := bufio.NewScanner(file)
@@ -75,7 +75,7 @@ func max(num1 int, num2 int) int {
 }
 
 func part2() int {
-	file, err := os.Open("day3.txt")
+	file, err := os.Open("input.txt")
 	check(err)
 
 	scanner := bufio.NewScanner(file)

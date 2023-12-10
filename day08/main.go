@@ -17,10 +17,10 @@ func check(e error) {
 }
 
 func main() {
-	part2("day8.test.txt")
+	part2("test.txt")
 
-	part1("day8.txt")
-	part2("day8.txt")
+	part1("input.txt")
+	part2("input.txt")
 }
 
 func part1(filename string) {

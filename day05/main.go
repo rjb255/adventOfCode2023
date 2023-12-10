@@ -17,7 +17,7 @@ func check(e error) {
 var numberRegex = regexp.MustCompile("\\d+")
 
 func main() {
-	file, err := os.Open("day5.txt")
+	file, err := os.Open("input.txt")
 	check(err)
 	scanner := bufio.NewScanner(file)
 	lineNumber := 0

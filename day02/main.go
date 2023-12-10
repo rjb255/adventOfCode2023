@@ -28,7 +28,7 @@ func part1() {
 	balls["green"] = 13
 	balls["blue"] = 14
 
-	file, err := os.Open("day2.txt")
+	file, err := os.Open("input.txt")
 	check(err)
 
 	scanner := bufio.NewScanner(file)
@@ -55,7 +55,7 @@ func part1() {
 
 func part2() {
 
-	file, err := os.Open("day2.txt")
+	file, err := os.Open("input.txt")
 	check(err)
 
 	scanner := bufio.NewScanner(file)

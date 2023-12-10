@@ -55,13 +55,13 @@ func main() {
 	cardMapping["K"] = 13
 	cardMapping["A"] = 14
 
-	part1("day7.test.txt")
-	part1("day7.txt")
+	part1("test.txt")
+	part1("input.txt")
 
 	part = 2
 
-	part1("day7.test.txt")
-	part1("day7.txt")
+	part1("test.txt")
+	part1("input.txt")
 }
 
 func part1(fileName string) {
