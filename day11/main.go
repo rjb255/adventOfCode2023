@@ -51,6 +51,7 @@ func part1(filename string) {
 			totalGalaxyCount++
 		}
 	}
+	file.Close()
 
 	tot := 0
 	for i, y := range ys {
@@ -58,7 +59,6 @@ func part1(filename string) {
 	}
 	slices.Sort(xs)
 	offset := 0
-	println(tot)
 	for i, x := range xs {
 		if i > 0 && xs[i]-xs[i-1] > 1 {
 			offset += xs[i] - xs[i-1] - 1
@@ -92,12 +92,12 @@ func part2(filename string) {
 			totalGalaxyCount++
 		}
 	}
+	file.Close()
 
 	tot := 0
 	for i, y := range ys {
 		tot -= (totalGalaxyCount - 1 - 2*i) * y
 	}
-
 	slices.Sort(xs)
 	offset := 0
 	for i, x := range xs {
